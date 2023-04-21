@@ -54,3 +54,6 @@ splitDataByActivity <- split(dataExtract, dataExtract[, c("Subject","Activity")]
 result <- sapply(splitDataByActivity, function(x) {colMeans(x[,c(3:length(columnsToExtract))], na.rm=TRUE)})
 #replace NA data due to missing observation with "No data" message
 result<- ifelse(is.na(result), "No data", result)
+
+#Results are in result matrix
+head(result)
