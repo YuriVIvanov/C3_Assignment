@@ -80,29 +80,29 @@ function (x, y, ...)
 - `y` is a second element
 
 ```r
-Map label to descriptive activities (test data)
+- Map label to descriptive activities (test data)
 >dataLabelDescriptive <- merge(ActivityLabel, dataTestLabel)
 
-Add label and rename corresponding column for merge with train data
+- Add label and rename corresponding column for merge with train data
 >dataTestiLabel <- cbind(dataLabelDescriptive[,c(2)], dataTest)
 >colnames(dataTestiLabel)[colnames(dataTestiLabel) == "dataLabelDescriptive[, c(2)]"] <- "Activity"
 
-Add subject and rename corresponding column for merge with train data
+- Add subject and rename corresponding column for merge with train data
 >dataTestiLabeliSubject <- cbind(dataTestSubject, dataTestiLabel)
 >colnames(dataTestiLabeliSubject)[1] <- "Subject"
 
-*Map label to descriptive activities (train data)*
+- Map label to descriptive activities (train data)
 >dataLabelTrainDescriptive <- merge(ActivityLabel, dataTrainLabel)
 >dataTrainiLabel <- cbind(dataLabelTrainDescriptive[,c(2)], dataTrain)
 
-Add label and rename corresponding column for merge with test data
+- Add label and rename corresponding column for merge with test data
 >colnames(dataTrainiLabel)[colnames(dataTrainiLabel) == "dataLabelTrainDescriptive[, c(2)]"] <- "Activity"
 
-Add subject and rename corresponding column for merge with test data
+- Add subject and rename corresponding column for merge with test data
 >dataTrainiLabeliSubject <- cbind(dataTrainSubject, dataTrainiLabel)
 >colnames(dataTrainiLabeliSubject)[1] <- "Subject"
 
-Merge test and train data
+- Merge test and train data
 >dataAll <- rbind(dataTestiLabeliSubject, dataTrainiLabeliSubject)
 ```
 ----
@@ -135,7 +135,7 @@ function (x, f, drop = FALSE, ...)
 ```
 ---
 
-##Perform analysis and replace errors
+## Perform analysis and replace errors
 ```r
 >str(sapply)
 function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)  
