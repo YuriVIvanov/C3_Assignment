@@ -18,15 +18,16 @@ function (..., sep = " ", collapse = NULL, recycle0 = FALSE)
 - `...` list of strings to be combined
 - `sep` is a separator, empty space is used 
 
-fileNameTest <- paste(getwd(), "/Input_data/test/X_test.txt", sep="")
-fileNameLabelTest <- paste(getwd(), "/Input_data/test/y_test.txt", sep="")
-fileNameSubjectTest <- paste(getwd(), "/Input_data/test/subject_test.txt", sep="")
-fileNameActivityLabel <- paste(getwd(), "/Input_data/activity_labels.txt", sep="")
-fileNameTrain <- paste(getwd(), "/Input_data/train/X_train.txt", sep="")
-fileNameTrainLabel <- paste(getwd(), "/Input_data/train/y_train.txt", sep="")
-fileNameSubjectTrain <- paste(getwd(), "/Input_data/train/subject_train.txt", sep="")
-fileNameFeaturesLabel <- paste(getwd(), "/Input_data/features.txt", sep="")
-
+```r
+>fileNameTest <- paste(getwd(), "/Input_data/test/X_test.txt", sep="")
+>fileNameLabelTest <- paste(getwd(), "/Input_data/test/y_test.txt", sep="")
+>fileNameSubjectTest <- paste(getwd(), "/Input_data/test/subject_test.txt", sep="")
+>fileNameActivityLabel <- paste(getwd(), "/Input_data/activity_labels.txt", sep="")
+>fileNameTrain <- paste(getwd(), "/Input_data/train/X_train.txt", sep="")
+>fileNameTrainLabel <- paste(getwd(), "/Input_data/train/y_train.txt", sep="")
+>fileNameSubjectTrain <- paste(getwd(), "/Input_data/train/subject_train.txt", sep="")
+>fileNameFeaturesLabel <- paste(getwd(), "/Input_data/features.txt", sep="")
+```
 ---
 
 
@@ -39,15 +40,16 @@ function (file, header = TRUE, sep = ",", quote = "\"", dec = ".", fill = TRUE, 
 - `sep` is a separator, empty space is used 
 - `header` is a header, the data are without header used
 
-dataTest <- read.csv(fileNameTest, sep="", header = FALSE)
-dataTestLabel <- read.csv(fileNameLabelTest, sep="", header = FALSE)
-dataTestSubject <- read.csv(fileNameSubjectTest, sep="", header = FALSE)
-ActivityLabel <- read.csv(fileNameActivityLabel, sep="", header = FALSE)
-dataTrain <- read.csv(fileNameTrain, sep="", header = FALSE)
-dataTrainLabel <- read.csv(fileNameTrainLabel, sep="", header = FALSE)
-dataTrainSubject <- read.csv(fileNameSubjectTrain, sep="", header = FALSE)
-featuresLabel <- read.csv(fileNameFeaturesLabel, sep="", header = FALSE)
-
+```r
+>dataTest <- read.csv(fileNameTest, sep="", header = FALSE)
+>dataTestLabel <- read.csv(fileNameLabelTest, sep="", header = FALSE)
+>dataTestSubject <- read.csv(fileNameSubjectTest, sep="", header = FALSE)
+>ActivityLabel <- read.csv(fileNameActivityLabel, sep="", header = FALSE)
+>dataTrain <- read.csv(fileNameTrain, sep="", header = FALSE)
+>dataTrainLabel <- read.csv(fileNameTrainLabel, sep="", header = FALSE)
+>dataTrainSubject <- read.csv(fileNameSubjectTrain, sep="", header = FALSE)
+>featuresLabel <- read.csv(fileNameFeaturesLabel, sep="", header = FALSE)
+```
 ---
 
 ## Combine the data
@@ -77,35 +79,41 @@ function (x, y, ...)
 - `x` is a first element
 - `y` is a second element
 
-*Map label to descriptive activities (test data)
-dataLabelDescriptive <- merge(ActivityLabel, dataTestLabel)
-*Add label and rename corresponding column for merge with train data
-dataTestiLabel <- cbind(dataLabelDescriptive[,c(2)], dataTest)
-colnames(dataTestiLabel)[colnames(dataTestiLabel) == "dataLabelDescriptive[, c(2)]"] <- "Activity"
-*Add subject and rename corresponding column for merge with train data
-dataTestiLabeliSubject <- cbind(dataTestSubject, dataTestiLabel)
-colnames(dataTestiLabeliSubject)[1] <- "Subject"
-*Map label to descriptive activities (train data)
-dataLabelTrainDescriptive <- merge(ActivityLabel, dataTrainLabel)
-dataTrainiLabel <- cbind(dataLabelTrainDescriptive[,c(2)], dataTrain)
-*Add label and rename corresponding column for merge with test data
-colnames(dataTrainiLabel)[colnames(dataTrainiLabel) == "dataLabelTrainDescriptive[, c(2)]"] <- "Activity"
-*Add subject and rename corresponding column for merge with test data
-dataTrainiLabeliSubject <- cbind(dataTrainSubject, dataTrainiLabel)
-colnames(dataTrainiLabeliSubject)[1] <- "Subject"
-*Merge test and train data
-dataAll <- rbind(dataTestiLabeliSubject, dataTrainiLabeliSubject)
+```r
+Map label to descriptive activities (test data)
+>dataLabelDescriptive <- merge(ActivityLabel, dataTestLabel)
+Add label and rename corresponding column for merge with train data
+>dataTestiLabel <- cbind(dataLabelDescriptive[,c(2)], dataTest)
+>colnames(dataTestiLabel)[colnames(dataTestiLabel) == "dataLabelDescriptive[, c(2)]"] <- "Activity"
+Add subject and rename corresponding column for merge with train data
+>dataTestiLabeliSubject <- cbind(dataTestSubject, dataTestiLabel)
+>colnames(dataTestiLabeliSubject)[1] <- "Subject"
+Map label to descriptive activities (train data)
+>dataLabelTrainDescriptive <- merge(ActivityLabel, dataTrainLabel)
+>dataTrainiLabel <- cbind(dataLabelTrainDescriptive[,c(2)], dataTrain)
+Add label and rename corresponding column for merge with test data
+>colnames(dataTrainiLabel)[colnames(dataTrainiLabel) == "dataLabelTrainDescriptive[, c(2)]"] <- "Activity"
+Add subject and rename corresponding column for merge with test data
+>dataTrainiLabeliSubject <- cbind(dataTrainSubject, dataTrainiLabel)
+>colnames(dataTrainiLabeliSubject)[1] <- "Subject"
+Merge test and train data
+>dataAll <- rbind(dataTestiLabeliSubject, dataTrainiLabeliSubject)
+```
 ----
 
 ##Add descriptive features to data (dataAll)
-colFeatures <- append("Subject", append("Activity", featuresLabel[, c(2)]))
-colnames(dataAll) <- colFeatures
+```r
+>colFeatures <- append("Subject", append("Activity", featuresLabel[, c(2)]))
+>colnames(dataAll) <- colFeatures
+```
 ---
 
 ##Extract the mean and std columns
-columnsToExtract <- append(colFeatures[grep("-mean(", colFeatures,fixed = TRUE)], colFeatures[grep("-std(", colFeatures,fixed = TRUE)])
-columnsToExtract <- append("Subject", append("Activity", columnsToExtract))
-dataExtract <- dataAll[, columnsToExtract]
+```r
+>columnsToExtract <- append(colFeatures[grep("-mean(", colFeatures,fixed = TRUE)], colFeatures[grep("-std(", colFeatures,fixed = TRUE)])
+>columnsToExtract <- append("Subject", append("Activity", columnsToExtract))
+>dataExtract <- dataAll[, columnsToExtract]
+```
 ---
 
 ##Split extracted dat on pivot columns (activity and subject)
@@ -116,7 +124,9 @@ function (x, f, drop = FALSE, ...)
 - `x` is a object to split
 - `f` is a way to split
 
-splitDataByActivity <- split(dataExtract, dataExtract[, c("Subject","Activity")])
+```r
+>splitDataByActivity <- split(dataExtract, dataExtract[, c("Subject","Activity")])
+```
 ---
 
 ##Perform analysis and replace errors
@@ -129,7 +139,9 @@ function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
 - ... contains other arguments to be passed `FUN`
 - `simplify`, should we simplify the result?
 
-result <- sapply(splitDataByActivity, function(x) {colMeans(x[,c(3:length(columnsToExtract))], na.rm=TRUE)})
-result <- ifelse(is.na(result), "No data", result)
+```r
+>result <- sapply(splitDataByActivity, function(x) {colMeans(x[,c(3:length(columnsToExtract))], na.rm=TRUE)})
+>result <- ifelse(is.na(result), "No data", result)
+```
 
 ---
