@@ -82,33 +82,39 @@ function (x, y, ...)
 ```r
 Map label to descriptive activities (test data)
 >dataLabelDescriptive <- merge(ActivityLabel, dataTestLabel)
+
 Add label and rename corresponding column for merge with train data
 >dataTestiLabel <- cbind(dataLabelDescriptive[,c(2)], dataTest)
 >colnames(dataTestiLabel)[colnames(dataTestiLabel) == "dataLabelDescriptive[, c(2)]"] <- "Activity"
+
 Add subject and rename corresponding column for merge with train data
 >dataTestiLabeliSubject <- cbind(dataTestSubject, dataTestiLabel)
 >colnames(dataTestiLabeliSubject)[1] <- "Subject"
-Map label to descriptive activities (train data)
+
+*Map label to descriptive activities (train data)*
 >dataLabelTrainDescriptive <- merge(ActivityLabel, dataTrainLabel)
 >dataTrainiLabel <- cbind(dataLabelTrainDescriptive[,c(2)], dataTrain)
+
 Add label and rename corresponding column for merge with test data
 >colnames(dataTrainiLabel)[colnames(dataTrainiLabel) == "dataLabelTrainDescriptive[, c(2)]"] <- "Activity"
+
 Add subject and rename corresponding column for merge with test data
 >dataTrainiLabeliSubject <- cbind(dataTrainSubject, dataTrainiLabel)
 >colnames(dataTrainiLabeliSubject)[1] <- "Subject"
+
 Merge test and train data
 >dataAll <- rbind(dataTestiLabeliSubject, dataTrainiLabeliSubject)
 ```
 ----
 
-##Add descriptive features to data (dataAll)
+## Add descriptive features to data (dataAll)
 ```r
 >colFeatures <- append("Subject", append("Activity", featuresLabel[, c(2)]))
 >colnames(dataAll) <- colFeatures
 ```
 ---
 
-##Extract the mean and std columns
+## Extract the mean and std columns
 ```r
 >columnsToExtract <- append(colFeatures[grep("-mean(", colFeatures,fixed = TRUE)], colFeatures[grep("-std(", colFeatures,fixed = TRUE)])
 >columnsToExtract <- append("Subject", append("Activity", columnsToExtract))
@@ -116,7 +122,7 @@ Merge test and train data
 ```
 ---
 
-##Split extracted dat on pivot columns (activity and subject)
+## Split extracted dat on pivot columns (activity and subject)
 ```r
 >str(split)
 function (x, f, drop = FALSE, ...)  
